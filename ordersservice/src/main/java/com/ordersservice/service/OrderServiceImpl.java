@@ -1,5 +1,7 @@
 package com.ordersservice.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -27,13 +29,14 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			OrderDetails customer = orderServiceClient.getCustomerDetails(emial);
 			OrderDetails vehicles = vehicleServiceClient.getVehicleDetails(brand, model);
-			if (customer.getEmail() != null && !ObjectUtils.isEmpty(customer.getEmail()) && vehicles.getVehicleId() != null
-					&& !ObjectUtils.isEmpty(vehicles.getVehicleId())) {
+			if (customer.getEmail() != null && !ObjectUtils.isEmpty(customer.getEmail())
+					&& vehicles.getVehicleId() != null && !ObjectUtils.isEmpty(vehicles.getVehicleId())) {
 				OrderDetails orders = new OrderDetails();
 				orders.setEmail(customer.getEmail());
 				orders.setFirstName(customer.getFirstName());
 				orders.setLastName(customer.getLastName());
 				orders.setVehicleId(vehicles.getVehicleId());
+				orders.setUserId(customer.getUserId());
 				orderRepository.save(orders);
 				return "Order placed successfully";
 			}
@@ -43,6 +46,11 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return "Issue raised while placing the order.";
 
+	}
+
+	@Override
+	public List<OrderDetails> getUserVehicles(Integer userId) {
+		return orderRepository.findByUserId(userId);
 	}
 
 }

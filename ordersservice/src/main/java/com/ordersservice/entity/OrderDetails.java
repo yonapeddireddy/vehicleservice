@@ -28,4 +28,7 @@ public class OrderDetails {
 
 	@Column(name = "vehicle_id")
 	private Integer vehicleId;
+
+	@Column(name = "user_id")
+	private Integer userId;
 }

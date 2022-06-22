@@ -8,5 +8,6 @@ public class OrderDetailsDto {
 	private String lastName;
 	private String email;
 	private Integer vehicleId;
+	private Integer userId;
 
 }
